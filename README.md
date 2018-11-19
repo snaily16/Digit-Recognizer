@@ -1,5 +1,4 @@
-# Digit-Recognizer
-[![](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/snaily16/Digit-Recognizer/blob/master/LICENSE)
+# Digit-Recognizer [![](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/snaily16/Digit-Recognizer/blob/master/LICENSE)
 
 ## Description
 A deep learning application to recognize digits from real-time handwritten numbers using object tracking and from images.
