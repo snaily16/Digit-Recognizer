@@ -1,7 +1,6 @@
 # import packages
 import numpy as np
 import cv2
-import imutils
 from collections import deque
 from keras.models import load_model
 
@@ -26,7 +25,6 @@ while True:
 	(grabbed, frame) = cam.read()
 
 	# resize the frame
-	frame = imutils.resize(frame, width = 600)
 	frame = cv2.flip(frame, 1)
 
 	# blur it to reduce high frequency noise and 
@@ -48,8 +46,7 @@ while True:
     # find contours in the mask and 
     #initialize the current (x,y) center of the ball
 	cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, 
-                        cv2.CHAIN_APPROX_SIMPLE)
-	cnts = cnts[0] if imutils.is_cv2() else cnts[1]
+                        cv2.CHAIN_APPROX_SIMPLE)[1]
 	center = None
     
     # Check to see if any contours were found

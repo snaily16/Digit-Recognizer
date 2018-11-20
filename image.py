@@ -1,12 +1,7 @@
 # import packages
 import numpy as np
 import cv2
-import imutils
-import matplotlib.pyplot as plt
-import seaborn as sns
-
 from keras.models import load_model
-sns.set(style='white', context='notebook', palette='deep')
 
 model = load_model('mnist_keras_cnn_model.h5')
 
@@ -21,8 +16,7 @@ im_gray = cv2.GaussianBlur(image, (5,5), 0)
 ret, im_th = cv2.threshold(im_gray, 90, 255, cv2.THRESH_BINARY_INV)
 
 # find contours in the image
-cnts= cv2.findContours(im_th.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-cnts = cnts[0] if imutils.is_cv2() else cnts[1]
+cnts= cv2.findContours(im_th.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[1]
 
 # get rectangles contains each contour
 rects = [cv2.boundingRect(ctr) for ctr in cnts]
@@ -42,10 +36,10 @@ for rect in rects:
     # convert to image array
     roi_arr = np.reshape(roi, [1,28,28,1])
     # predict
-    c = model.predict(roi_arr)
-    op=str(np.nonzero(c[0]))
-    print(op)
-    cv2.putText(im, op[8:9], (rect[0], rect[1]),cv2.FONT_HERSHEY_DUPLEX, 2, (255, 0, 0), 3)
+    c = model.predict(roi_arr)[0]
+    op=str(np.argmax(c))
+    #print(op)
+    cv2.putText(im, op, (rect[0], rect[1]),cv2.FONT_HERSHEY_DUPLEX, 2, (255, 0, 0), 3)
 # then display the output contours
 cv2.imshow('image',im)
 cv2.waitKey()
